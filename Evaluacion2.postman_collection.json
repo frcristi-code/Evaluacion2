@@ -1,0 +1,362 @@
+{
+  "info": {
+    "name": "Evaluacion2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Ejecutar manualmente en DEVASC. Completar variables y confirmar PUT en Swagger. Guardar capturas con estado HTTP real."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://library.demo.local/api/v1"
+    },
+    {
+      "key": "usuario",
+      "value": "cisco"
+    },
+    {
+      "key": "contrasena",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "autor",
+      "value": "COMPLETAR_NOMBRE_APELLIDO"
+    },
+    {
+      "key": "isbn",
+      "value": "COMPLETAR_RUT_SIN_PUNTOS_NI_GUION"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Obtener token con Basic Auth",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/loginViaBasic",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{usuario}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{contrasena}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+              "if (pm.response.code >= 200 && pm.response.code < 300) { const d = pm.response.json(); pm.test(\"Token recibido\", () => pm.expect(d.token).to.be.a(\"string\").and.not.empty); if (d.token) pm.collectionVariables.set(\"token\", d.token); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Crear libro 5",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/books",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 5,\n  \"title\": \"Guía de Estudio Para la Certificación Ccna Security\",\n  \"author\": \"{{autor}}\",\n  \"isbn\": \"{{isbn}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "for (const k of [\"autor\", \"isbn\"]) { if (!pm.variables.get(k) || pm.variables.get(k).startsWith(\"COMPLETAR\")) { throw new Error(\"Completa la variable \" + k + \" antes de enviar\"); } }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Crear libro 6",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/books",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 6,\n  \"title\": \"Redes Cisco. CCNA Routing y Switching.\",\n  \"author\": \"{{autor}}\",\n  \"isbn\": \"{{isbn}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "for (const k of [\"autor\", \"isbn\"]) { if (!pm.variables.get(k) || pm.variables.get(k).startsWith(\"COMPLETAR\")) { throw new Error(\"Completa la variable \" + k + \" antes de enviar\"); } }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Crear libro 7",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/books",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 7,\n  \"title\": \"Redes Avanzadas 1. DEVNET.\",\n  \"author\": \"{{autor}}\",\n  \"isbn\": \"{{isbn}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "for (const k of [\"autor\", \"isbn\"]) { if (!pm.variables.get(k) || pm.variables.get(k).startsWith(\"COMPLETAR\")) { throw new Error(\"Completa la variable \" + k + \" antes de enviar\"); } }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Consultar libro 5",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          }
+        ],
+        "url": "{{base_url}}/books/5"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+              "pm.test(\"ID 5 recibido\", () => pm.expect(pm.response.json().id).to.eql(5));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Actualizar libro 5",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/books/5",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 5,\n  \"title\": \"Guía de Estudio para la Certificación CCNA Security V2.0\",\n  \"author\": \"{{autor}}\",\n  \"isbn\": \"{{isbn}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "for (const k of [\"autor\", \"isbn\"]) { if (!pm.variables.get(k) || pm.variables.get(k).startsWith(\"COMPLETAR\")) { throw new Error(\"Completa la variable \" + k + \" antes de enviar\"); } }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Verificar título actualizado",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          }
+        ],
+        "url": "{{base_url}}/books/5"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+              "pm.test(\"Título actualizado\", () => pm.expect(pm.response.json().title).to.eql(\"Gu\\u00eda de Estudio para la Certificaci\\u00f3n CCNA Security V2.0\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Listar por autor con ISBN",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{token}}"
+          }
+        ],
+        "url": "{{base_url}}/books?includeISBN=true&sortBy=author"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Estado HTTP satisfactorio\", function () { pm.expect(pm.response.code).to.be.within(200, 299); });",
+              "pm.test(\"Todos incluyen ISBN\", () => { const datos = pm.response.json(); pm.expect(datos).to.be.an(\"array\").and.not.empty; datos.forEach(libro => pm.expect(libro).to.have.property(\"isbn\")); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+evidencias/
+*.postman_environment.json
+libros_generados.json
+catalogo_final.json
+*.log
