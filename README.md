@@ -1,5 +1,7 @@
 # Evaluacion2
 
+Repositorio público de esta entrega: https://github.com/frcristi-code/Evaluacion2
+
 Proyecto de Telepresencia y Entornos Innovadores de Colaboración Humana CUY6142. Integra la API REST de la biblioteca de DEVASC y GraphHopper mediante Python. La aplicación de rutas solicita origen y destino, presenta las indicaciones en español y muestra distancias y tiempos con dos decimales. Permite terminar escribiendo `s` o `salir` en cualquiera de las dos solicitudes de ubicación.
 
 ## Preparación en DEVASC
